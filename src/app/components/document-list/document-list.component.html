@@ -1,0 +1,170 @@
+<!-- all projects sidebar -->
+<p-sidebar
+  [(visible)]="allProjectsSideBar"
+  [baseZIndex]="10000"
+  styleClass="p-sidebar-md"
+>
+  <h1 style="font-weight: normal;">All Projects</h1>
+
+  <p-table
+    #dt1
+    [value]="documents | async"
+    styleClass="p-datatable-sm"
+    [filterDelay]="0"
+    [globalFilterFields]="['name', 'id', 'owner']"
+    [scrollable]="true"
+    scrollHeight="65vh"
+  >
+    <ng-template pTemplate="caption">
+      <div style="text-align: left;">
+        <i class="pi pi-search" style="margin: 4px 4px 0 0;"></i>
+        <input
+          type="text"
+          pInputText
+          size="50"
+          placeholder="Global Filter"
+          (input)="dt1.filterGlobal($event.target.value, 'contains')"
+          style="width: 90%;"
+        />
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 45%;">Name</th>
+        <th style="width: 15%;">ID</th>
+        <th style="width: 30%;">Owner</th>
+        <th style="width: 10%;">Add</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-document>
+      <tr class="project-bar" [class.selected]="document.id === currentDoc">
+        <td (click)="loadDoc(document.id)" style="width: 45%;">
+          {{ document.name }}
+        </td>
+        <td style="width: 15%;">{{ document.id }}</td>
+        <td style="width: 30%;">{{ document.owner }}</td>
+        <td style="width: 10%;">
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-sm p-button-rounded p-button-success"
+            (click)="addDocument(document.id)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-sidebar>
+
+<p-sidebar
+  [(visible)]="userProjectsSidebar"
+  [baseZIndex]="10000"
+  styleClass="p-sidebar-md"
+>
+  <h1 style="font-weight: normal;">User Projects</h1>
+  <input
+    pInputText
+    type="text"
+    [(ngModel)]="newpName"
+    placeholder="Project Name"
+    style="width: 95%; color: whitesmoke;"
+    id="pName"
+  />
+  <p-button
+    type="button"
+    (click)="newDoc()"
+    label="New Project"
+    styleClass="p-button-success"
+    style="margin: 15px 0;"
+  ></p-button>
+
+  <p-table
+    #dt2
+    [value]="userDocuments"
+    styleClass="p-datatable-sm"
+    [filterDelay]="0"
+    [globalFilterFields]="['name', 'id', 'owner']"
+    [scrollable]="true"
+    scrollHeight="55vh"
+  >
+    <ng-template pTemplate="caption">
+      <div style="text-align: left;">
+        <i class="pi pi-search" style="margin: 4px 4px 0 0;"></i>
+        <input
+          type="text"
+          pInputText
+          size="50"
+          placeholder="Global Filter"
+          (input)="dt2.filterGlobal($event.target.value, 'contains')"
+          style="width: 90%;"
+        />
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 45%;">Name</th>
+        <th style="width: 15%;">ID</th>
+        <th style="width: 28%;">Owner</th>
+        <th style="width: 12%;">Remove</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-document>
+      <tr class="project-bar" [class.selected]="document.id === currentDoc">
+        <td (click)="loadDoc(document.id)" style="width: 45%;">
+          {{ document.name }}
+        </td>
+        <td style="width: 15%;">{{ document.id }}</td>
+        <td style="width: 30%;">{{ document.owner }}</td>
+        <td style="width: 10%;">
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-minus"
+            class="p-button-sm p-button-rounded p-button-danger"
+            (click)="removeDocument(document.id)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-sidebar>
+
+<div class="sidebar">
+  <button
+    pButton
+    pRipple
+    type="button"
+    icon="pi pi-file"
+    class="p-button p-button-rounded p-button-text sidebar-btn"
+    (click)="allProjectsSideBar = true"
+    style="margin: 5px 0;"
+  ></button>
+  <button
+    pButton
+    pRipple
+    type="button"
+    icon="pi pi-user"
+    class="p-button p-button-rounded p-button-text sidebar-btn"
+    (click)="userProjectsSidebar = true"
+    style="margin: 5px 0;"
+  ></button>
+  <button
+    pButton
+    pRipple
+    type="button"
+    icon="pi pi-search"
+    class="p-button p-button-rounded p-button-text sidebar-btn"
+    style="margin: 5px 0;"
+  ></button>
+  <button
+    pButton
+    pRipple
+    type="button"
+    icon="pi pi-share-alt"
+    class="p-button p-button-rounded p-button-text sidebar-btn"
+    style="margin: 5px 0;"
+  ></button>
+</div>

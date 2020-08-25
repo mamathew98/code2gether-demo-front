@@ -1,0 +1,51 @@
+
+.project-bar {
+  cursor: pointer;
+}
+
+.selected {
+  background: green !important;
+}
+
+.project-bar:hover {
+  opacity: 0.7;
+}
+
+.sidebar {
+  height: 100%;
+  width: 40px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #2a323d;
+  overflow-x: hidden;
+  padding-top: 50px;
+}
+
+.sidebar-btn:hover{
+  color:whitesmoke;
+}
+
+.sidebar a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+}
+
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+.main {
+  margin-left: 160px; /* Same as the width of the sidenav */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
+}
+
