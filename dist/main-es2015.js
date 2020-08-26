@@ -4431,7 +4431,7 @@ class AccountService {
         return this.userSubject.value;
     }
     login(username, password) {
-        return this.http.post(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/users/authenticate`, { username, password })
+        return this.http.post(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/api/users/authenticate`, { username, password })
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('user', JSON.stringify(user));
@@ -4446,16 +4446,16 @@ class AccountService {
         this.router.navigate(['/account/login']);
     }
     register(user) {
-        return this.http.post(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/users/register`, user);
+        return this.http.post(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/api/users/register`, user);
     }
     getAll() {
-        return this.http.get(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/users`);
+        return this.http.get(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/api/users`);
     }
     getById(id) {
-        return this.http.get(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/users/${id}`);
+        return this.http.get(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/api/users/${id}`);
     }
     update(id, params) {
-        return this.http.put(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/users/${id}`, params)
+        return this.http.put(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/api/users/${id}`, params)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(x => {
             // update stored user if the logged in user updated their own record
             if (id == this.userValue.id) {
@@ -4469,7 +4469,7 @@ class AccountService {
         }));
     }
     delete(id) {
-        return this.http.delete(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/users/${id}`)
+        return this.http.delete(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/api/users/${id}`)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(x => {
             // auto logout if the logged in user deleted their own record
             if (id == this.userValue.id) {
@@ -4587,7 +4587,7 @@ class DocumentService {
     }
     getUserDocuments() {
         console.log(this.user);
-        return this.http.get(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/projects/user/${this.user.username}`)
+        return this.http.get(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/api/projects/user/${this.user.username}`)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(docs => {
             const userDocs = [];
             docs.forEach(doc => {
@@ -4610,7 +4610,7 @@ class DocumentService {
     }
     addDocument(pid) {
         console.log('Button Works');
-        return this.http.post(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/users/addproject`, { username: this.user.username, pid: pid })
+        return this.http.post(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/api/users/addproject`, { username: this.user.username, pid: pid })
             .subscribe(res => {
             console.log('Added');
         });

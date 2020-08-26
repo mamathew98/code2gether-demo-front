@@ -6463,7 +6463,7 @@
           value: function login(username, password) {
             var _this10 = this;
 
-            return this.http.post("".concat(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl, "/users/authenticate"), {
+            return this.http.post("".concat(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl, "/api/users/authenticate"), {
               username: username,
               password: password
             }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (user) {
@@ -6486,24 +6486,24 @@
         }, {
           key: "register",
           value: function register(user) {
-            return this.http.post("".concat(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl, "/users/register"), user);
+            return this.http.post("".concat(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl, "/api/users/register"), user);
           }
         }, {
           key: "getAll",
           value: function getAll() {
-            return this.http.get("".concat(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl, "/users"));
+            return this.http.get("".concat(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl, "/api/users"));
           }
         }, {
           key: "getById",
           value: function getById(id) {
-            return this.http.get("".concat(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl, "/users/").concat(id));
+            return this.http.get("".concat(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl, "/api/users/").concat(id));
           }
         }, {
           key: "update",
           value: function update(id, params) {
             var _this11 = this;
 
-            return this.http.put("".concat(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl, "/users/").concat(id), params).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (x) {
+            return this.http.put("".concat(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl, "/api/users/").concat(id), params).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (x) {
               // update stored user if the logged in user updated their own record
               if (id == _this11.userValue.id) {
                 // update local storage
@@ -6521,7 +6521,7 @@
           value: function _delete(id) {
             var _this12 = this;
 
-            return this.http["delete"]("".concat(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl, "/users/").concat(id)).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (x) {
+            return this.http["delete"]("".concat(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl, "/api/users/").concat(id)).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (x) {
               // auto logout if the logged in user deleted their own record
               if (id == _this12.userValue.id) {
                 _this12.logout();
@@ -6790,7 +6790,7 @@
             var _this13 = this;
 
             console.log(this.user);
-            return this.http.get("".concat(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl, "/projects/user/").concat(this.user.username)).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (docs) {
+            return this.http.get("".concat(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl, "/api/projects/user/").concat(this.user.username)).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (docs) {
               var userDocs = [];
               docs.forEach(function (doc) {
                 userDocs.push({
@@ -6817,7 +6817,7 @@
           key: "addDocument",
           value: function addDocument(pid) {
             console.log('Button Works');
-            return this.http.post("".concat(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl, "/users/addproject"), {
+            return this.http.post("".concat(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl, "/api/users/addproject"), {
               username: this.user.username,
               pid: pid
             }).subscribe(function (res) {
