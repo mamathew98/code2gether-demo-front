@@ -6986,7 +6986,7 @@
 
       var environment = {
         production: false,
-        apiUrl: 'http://localhost/api'
+        apiUrl: 'http://51.195.28.68/api'
       };
       /*
        * For easier debugging in development mode, you can import the following file
