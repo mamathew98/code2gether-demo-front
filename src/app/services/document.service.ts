@@ -34,7 +34,7 @@ export class DocumentService {
 
   getUserDocuments() {
     console.log(this.user);
-    return this.http.get<Document[]>(`${environment.apiUrl}/api/projects/user/${this.user.username}`)
+    return this.http.get<Document[]>(`${environment.apiUrl}/projects/user/${this.user.username}`)
       .pipe(map(docs => {
         const userDocs: Document[] = [];
         docs.forEach(doc => {
@@ -59,7 +59,7 @@ export class DocumentService {
 
   addDocument(pid: string) {
     console.log('Button Works')
-    return this.http.post(`${environment.apiUrl}/api/users/addproject`, { username: this.user.username, pid: pid })
+    return this.http.post(`${environment.apiUrl}/users/addproject`, { username: this.user.username, pid: pid })
       .subscribe(res => {
         console.log('Added');
       });
