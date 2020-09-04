@@ -55,6 +55,12 @@ export class DocumentService {
       }));
   }
 
+  leaveDocument(docID){
+    this.socket.emit('leave', {
+      docID,
+      username: this.user.username
+    });
+  }
   getDocument(id: string) {
     this.socket.emit('getDoc', {docId: id, username: this.user.username});
     // this.currentDocument.subscribe(document => console.log(document));

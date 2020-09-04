@@ -5227,6 +5227,8 @@
         }, {
           key: "ngOnDestroy",
           value: function ngOnDestroy() {
+            this.documentService.leaveDocument(this.doc.id);
+
             this._docSub.unsubscribe();
 
             this._cursorsSub.unsubscribe();
@@ -6935,6 +6937,14 @@
 
               return userDocs;
             }));
+          }
+        }, {
+          key: "leaveDocument",
+          value: function leaveDocument(docID) {
+            this.socket.emit('leave', {
+              docID: docID,
+              username: this.user.username
+            });
           }
         }, {
           key: "getDocument",

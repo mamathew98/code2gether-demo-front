@@ -106,6 +106,8 @@ export class DocumentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.documentService.leaveDocument(this.doc.id);
+
     this._docSub.unsubscribe();
     this._cursorsSub.unsubscribe();
     this._userLeft.unsubscribe();

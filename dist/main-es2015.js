@@ -3770,6 +3770,7 @@ class DocumentComponent {
         });
     }
     ngOnDestroy() {
+        this.documentService.leaveDocument(this.doc.id);
         this._docSub.unsubscribe();
         this._cursorsSub.unsubscribe();
         this._userLeft.unsubscribe();
@@ -4725,6 +4726,12 @@ class DocumentService {
             this.userDocuments.next(userDocs);
             return userDocs;
         }));
+    }
+    leaveDocument(docID) {
+        this.socket.emit('leave', {
+            docID,
+            username: this.user.username
+        });
     }
     getDocument(id) {
         this.socket.emit('getDoc', { docId: id, username: this.user.username });
