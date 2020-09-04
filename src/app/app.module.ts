@@ -18,7 +18,11 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { DocumentComponent } from './components/document/document.component';
 import { DocumentListComponent } from './components/document-list/document-list.component';
 
-const config: SocketIoConfig = { url: 'http://51.195.28.68:4000', options: {} };
+import { environment } from '@environments/environment';
+
+import {AccountService} from './services/account.service';
+
+const config: SocketIoConfig = { url: environment.apiUrl, options: {}};
 
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

@@ -8,38 +8,32 @@
   "
   *ngIf="doc"
 >
-  <button
-    mat-raised-button
-    color="accent"
-    style="margin: 0 5px;"
-    (click)="editDoc()"
-  >
-    Save
-  </button>
-  <button mat-raised-button style="margin: 0 5px;">
-    Download
-  </button>
-  <button mat-raised-button color="primary" style="margin: 0 5px;">
-    Share
-  </button>
+  <button mat-raised-button color="accent" style="margin: 0 5px">Save</button>
+  <button mat-raised-button style="margin: 0 5px">Download</button>
+  <button mat-raised-button color="primary" style="margin: 0 5px">Share</button>
 
-  <button mat-raised-button color="warn" style="margin: 0 5px;">
-    Delete
-  </button>
+  <button mat-raised-button color="warn" style="margin: 0 5px">Delete</button>
 </div>
 <div
   class="row"
-  style="width: calc(100% - 80px); height: calc(100% - 50px); margin: 10px 20px 10px 60px;padding:10px; border: solid 1px purple"
+  style="
+    width: calc(100% - 80px);
+    height: calc(100% - 50px);
+    margin: 10px 20px 10px 60px;
+    padding: 10px;
+    border: solid 1px purple;
+  "
 >
   <div class="col-12 col-md-5" *ngIf="doc">
     <mat-tab-group dynamicHeight>
       <mat-tab label="Html">
         <ng-template matTabContent>
           <ngx-monaco-editor
+            (onInit)="htmlEditorEvent($event)"
             [options]="editorHtmlOptions"
             [(ngModel)]="doc.html"
-            (keyup)="editDoc()"
-            style="height: 70vh; margin: 0; padding: 0; overflow: hidden;"
+            (keyup)="editDoc($event)"
+            style="height: 70vh; margin: 0; padding: 0; overflow: hidden"
             id="html"
           ></ngx-monaco-editor>
         </ng-template>
@@ -47,10 +41,11 @@
       <mat-tab label="Css">
         <ng-template matTabContent>
           <ngx-monaco-editor
+            (onInit)="cssEditorEvent($event)"
             [options]="editorCssOptions"
             [(ngModel)]="doc.css"
-            (keyup)="editDoc()"
-            style="height: 70vh; margin: 0; padding: 0; overflow: hidden;"
+            (keyup)="editDoc($event)"
+            style="height: 70vh; margin: 0; padding: 0; overflow: hidden"
             id="css"
           ></ngx-monaco-editor>
         </ng-template>
@@ -58,10 +53,11 @@
       <mat-tab label="Js">
         <ng-template matTabContent>
           <ngx-monaco-editor
+            (onInit)="jsEditorEvent($event)"
             [options]="editorJsOptions"
             [(ngModel)]="doc.js"
-            (keyup)="editDoc()"
-            style="height: 70vh; margin: 0; padding: 0; overflow: hidden;"
+            (keyup)="editDoc($event)"
+            style="height: 70vh; margin: 0; padding: 0; overflow: hidden"
             id="js"
           ></ngx-monaco-editor>
         </ng-template>
@@ -73,7 +69,7 @@
   </div>
   <div
     class="col-12 col-md-7"
-    style="color: white; padding-top: 50px; min-height: 400px;"
+    style="color: white; padding-top: 50px; min-height: 400px"
   >
     <div class="output grid">
       <iframe id="compiler"></iframe>

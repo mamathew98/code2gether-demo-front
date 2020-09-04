@@ -20,7 +20,8 @@
             "allowedCommonJsDependencies": [
               "socket.io-client",
               "debug",
-              "socket.io-parser"
+              "socket.io-parser",
+              "jquery"
             ],
             "outputPath": "dist",
             "index": "src/index.html",

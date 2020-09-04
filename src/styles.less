@@ -19,4 +19,32 @@ html, body {
  }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.myInlineDecoration {
+	color: red !important;
+	cursor: pointer;
+	text-decoration: underline;
+	font-weight: bold;
+	font-style: oblique;
+}
 
+.myLineDecoration {
+	background: lightblue;
+	width: 5px !important;
+	margin-left: 3px;
+}
+
+
+@-webkit-keyframes fadeOut {
+  0% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+@keyframes fadeOut {
+  0% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+.fadeOut {
+  -webkit-animation-name: fadeOut;
+  animation-name: fadeOut;
+}

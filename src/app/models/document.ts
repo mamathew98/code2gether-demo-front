@@ -1,3 +1,5 @@
+import { Cursor } from './cursors';
+
 export class Document {
   id: string;
   name: string;

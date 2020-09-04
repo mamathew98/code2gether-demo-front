@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 
 import { Document } from '../models/document';
+import { Cursor } from '../models/cursors';
+
 import { User } from '@app/models';
 import { AccountService } from './account.service';
 
@@ -19,9 +21,10 @@ export class DocumentService {
   user: User;
 
   currentDocument = this.socket.fromEvent<Document>('document');
+  currentCursors = this.socket.fromEvent<Cursor[]>('cursors');
+  userLeft = this.socket.fromEvent<String>('disconnect');
   documents = this.socket.fromEvent<Document[]>('documents');
   userDocuments: BehaviorSubject<Document[]>;
-
 
   constructor(
     private socket: Socket,
@@ -44,7 +47,7 @@ export class DocumentService {
             html: doc.html,
             css: doc.css,
             js: doc.js,
-            owner: doc.owner
+            owner: doc.owner,
           });
         });
         this.userDocuments.next(userDocs);
@@ -53,13 +56,13 @@ export class DocumentService {
   }
 
   getDocument(id: string) {
-    this.socket.emit('getDoc', id);
+    this.socket.emit('getDoc', {docId: id, username: this.user.username});
     // this.currentDocument.subscribe(document => console.log(document));
   }
 
   addDocument(pid: string) {
     console.log('Button Works')
-    return this.http.post(`${environment.apiUrl}/users/addproject`, { username: this.user.username, pid: pid })
+    return this.http.post(`${environment.apiUrl}/users/addproject`, { username: this.user.username, pid })
       .subscribe(res => {
         console.log('Added');
       });
@@ -73,11 +76,21 @@ export class DocumentService {
     }
     console.log(name);
     console.log(docId);
-    this.socket.emit('addDoc', { id: docId, name: name, html: '', css: '', js: '', owner: this.user.username });
+    this.socket.emit('addDoc', { id: docId, name, html: '', css: '', js: '', owner: this.user.username });
   }
 
   editDocument(document: Document) {
     this.socket.emit('editDoc', document);
+  }
+
+  updateCursors(docID, htmlPos, cssPos, jsPos){
+    this.socket.emit('updateCursor', {
+      docID,
+      username: this.user.username,
+      htmlPos,
+      cssPos,
+      jsPos
+    })
   }
 
   deleteDocument(id: string){
