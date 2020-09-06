@@ -107,7 +107,6 @@ export class DocumentComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.documentService.leaveDocument(this.doc.id);
-
     this._docSub.unsubscribe();
     this._cursorsSub.unsubscribe();
     this._userLeft.unsubscribe();
@@ -118,11 +117,14 @@ export class DocumentComponent implements OnInit, OnDestroy {
 
     editor.onDidChangeCursorPosition((e) => {
       this.htmlPos = e.position;
-      // this.documentService.updateCursors(this.doc.id, this.htmlPos, this.cssPos, this.jsPos);
     });
     editor.onDidChangeModelContent((e) => {
       // console.log(editor)
       this.renderCursors(editor);
+
+      const myCursor = this.cursors.find(curosr => curosr.id === this.user.username);
+      editor.setPosition(myCursor.html);
+      editor.focus();
 
     });
   }
@@ -131,7 +133,6 @@ export class DocumentComponent implements OnInit, OnDestroy {
 
     editor.onDidChangeCursorPosition((e) => {
       this.cssPos = e.position;
-      // this.documentService.updateCursors(this.doc.id, this.htmlPos, this.cssPos, this.jsPos);
     });
     editor.onDidChangeModelContent((e) => {
       // console.log(editor)
@@ -143,7 +144,6 @@ export class DocumentComponent implements OnInit, OnDestroy {
 
     editor.onDidChangeCursorPosition((e) => {
       this.jsPos = e.position;
-      // this.documentService.updateCursors(this.doc.id, this.htmlPos, this.cssPos, this.jsPos);
     });
     editor.onDidChangeModelContent((e) => {
       // console.log(editor)
@@ -151,9 +151,6 @@ export class DocumentComponent implements OnInit, OnDestroy {
     });
   }
   editDoc(event) {
-    // console.log('htmlPos: ', this.htmlPos);
-    // console.log('cssPos: ', this.cssPos);
-    // console.log('jsPos: ', this.jsPos);
     this.documentService.updateCursors(this.doc.id, this.htmlPos, this.cssPos, this.jsPos);
     this.documentService.editDocument(this.doc);
     this.compiler = document.getElementsByTagName('iframe')[0].contentWindow.document;
@@ -161,7 +158,7 @@ export class DocumentComponent implements OnInit, OnDestroy {
   }
 
 
-  deleteCursorOnDisconnect(editor){
+  deleteCursorOnDisconnect(editor) {
     this._userLeft = this.documentService.userLeft.subscribe(user => {
       const contentWidget = {
         allowEditorOverflow: true,
@@ -175,7 +172,7 @@ export class DocumentComponent implements OnInit, OnDestroy {
         },
         getPosition: function () {
           return {
-            position : this.position,
+            position: this.position,
             preference: [monaco.editor.ContentWidgetPositionPreference.ABOVE, monaco.editor.ContentWidgetPositionPreference.EXACT]
           };
         }
@@ -184,9 +181,9 @@ export class DocumentComponent implements OnInit, OnDestroy {
     });
   }
 
-  renderCursors(editor){
+  renderCursors(editor) {
     this.cursors.forEach(cursor => {
-      if(cursor.id !== this.user.username) {
+      if (cursor.id !== this.user.username) {
         const contentWidget = {
           allowEditorOverflow: true,
           domNode: null,
@@ -197,7 +194,7 @@ export class DocumentComponent implements OnInit, OnDestroy {
             if (!this.domNode) {
               this.domNode = document.createElement('div');
               this.domNode.innerHTML =
-              `
+                `
               <div style="
               margin-left: 5px;
               width: 0;

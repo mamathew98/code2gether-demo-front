@@ -5252,11 +5252,18 @@
 
             this.deleteCursorOnDisconnect(editor);
             editor.onDidChangeCursorPosition(function (e) {
-              _this8.htmlPos = e.position; // this.documentService.updateCursors(this.doc.id, this.htmlPos, this.cssPos, this.jsPos);
+              _this8.htmlPos = e.position;
             });
             editor.onDidChangeModelContent(function (e) {
               // console.log(editor)
               _this8.renderCursors(editor);
+
+              var myCursor = _this8.cursors.find(function (curosr) {
+                return curosr.id === _this8.user.username;
+              });
+
+              editor.setPosition(myCursor.html);
+              editor.focus();
             });
           }
         }, {
@@ -5266,7 +5273,7 @@
 
             this.deleteCursorOnDisconnect(editor);
             editor.onDidChangeCursorPosition(function (e) {
-              _this9.cssPos = e.position; // this.documentService.updateCursors(this.doc.id, this.htmlPos, this.cssPos, this.jsPos);
+              _this9.cssPos = e.position;
             });
             editor.onDidChangeModelContent(function (e) {
               // console.log(editor)
@@ -5280,7 +5287,7 @@
 
             this.deleteCursorOnDisconnect(editor);
             editor.onDidChangeCursorPosition(function (e) {
-              _this10.jsPos = e.position; // this.documentService.updateCursors(this.doc.id, this.htmlPos, this.cssPos, this.jsPos);
+              _this10.jsPos = e.position;
             });
             editor.onDidChangeModelContent(function (e) {
               // console.log(editor)
@@ -5290,9 +5297,6 @@
         }, {
           key: "editDoc",
           value: function editDoc(event) {
-            // console.log('htmlPos: ', this.htmlPos);
-            // console.log('cssPos: ', this.cssPos);
-            // console.log('jsPos: ', this.jsPos);
             this.documentService.updateCursors(this.doc.id, this.htmlPos, this.cssPos, this.jsPos);
             this.documentService.editDocument(this.doc);
             this.compiler = document.getElementsByTagName('iframe')[0].contentWindow.document;
@@ -7148,7 +7152,7 @@
 
       var environment = {
         production: false,
-        apiUrl: 'http://51.195.28.68:4000'
+        apiUrl: 'http://51.195.28.68/:4000'
       };
       /*
        * For easier debugging in development mode, you can import the following file

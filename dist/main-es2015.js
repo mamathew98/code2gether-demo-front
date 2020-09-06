@@ -3781,18 +3781,19 @@ class DocumentComponent {
         this.deleteCursorOnDisconnect(editor);
         editor.onDidChangeCursorPosition((e) => {
             this.htmlPos = e.position;
-            // this.documentService.updateCursors(this.doc.id, this.htmlPos, this.cssPos, this.jsPos);
         });
         editor.onDidChangeModelContent((e) => {
             // console.log(editor)
             this.renderCursors(editor);
+            const myCursor = this.cursors.find(curosr => curosr.id === this.user.username);
+            editor.setPosition(myCursor.html);
+            editor.focus();
         });
     }
     cssEditorEvent(editor) {
         this.deleteCursorOnDisconnect(editor);
         editor.onDidChangeCursorPosition((e) => {
             this.cssPos = e.position;
-            // this.documentService.updateCursors(this.doc.id, this.htmlPos, this.cssPos, this.jsPos);
         });
         editor.onDidChangeModelContent((e) => {
             // console.log(editor)
@@ -3803,7 +3804,6 @@ class DocumentComponent {
         this.deleteCursorOnDisconnect(editor);
         editor.onDidChangeCursorPosition((e) => {
             this.jsPos = e.position;
-            // this.documentService.updateCursors(this.doc.id, this.htmlPos, this.cssPos, this.jsPos);
         });
         editor.onDidChangeModelContent((e) => {
             // console.log(editor)
@@ -3811,9 +3811,6 @@ class DocumentComponent {
         });
     }
     editDoc(event) {
-        // console.log('htmlPos: ', this.htmlPos);
-        // console.log('cssPos: ', this.cssPos);
-        // console.log('jsPos: ', this.jsPos);
         this.documentService.updateCursors(this.doc.id, this.htmlPos, this.cssPos, this.jsPos);
         this.documentService.editDocument(this.doc);
         this.compiler = document.getElementsByTagName('iframe')[0].contentWindow.document;
@@ -4837,7 +4834,7 @@ __webpack_require__.r(__webpack_exports__);
 // The list of file replacements can be found in `angular.json`.
 const environment = {
     production: false,
-    apiUrl: 'http://51.195.28.68:4000'
+    apiUrl: 'http://51.195.28.68/:4000'
 };
 /*
  * For easier debugging in development mode, you can import the following file
