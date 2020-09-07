@@ -145,7 +145,6 @@ export class DocumentComponent implements OnInit, OnDestroy {
       this.htmlPos = e.position;
     });
     editor.onDidChangeModelContent((e) => {
-      console.log('line count: ', editor.viewModel.getLineCount());
       this.renderCursors(editor);
 
       this.doc.html = editor.getValue();
@@ -191,10 +190,10 @@ export class DocumentComponent implements OnInit, OnDestroy {
     this.compile();
   }
 
-  async leaveDoc() {
-    await this.ngOnDestroy();
-    window.location.reload();
-  }
+  // async leaveDoc() {
+  //   await this.ngOnDestroy();
+  //   window.location.reload();
+  // }
 
 
   deleteCursorOnDisconnect(editor) {
