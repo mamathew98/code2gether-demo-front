@@ -21,6 +21,10 @@ import { AccountService } from '@app/services';
 export class DocumentComponent implements OnInit, OnDestroy {
   timer: Subscription;
 
+  htmleEditor;
+  cssEditor;
+  jsEditor;
+
   activeIndex: number = 0;
   contentWidgets = {}; // save monaco editor name contentWidgets - monaco editor의 이름 뜨는 위젯을 저장
 
@@ -95,11 +99,30 @@ export class DocumentComponent implements OnInit, OnDestroy {
       .subscribe(doc => {
         this.compiler = document.getElementsByTagName('iframe')[0].contentWindow.document;
         this.doc = doc;
+
+        if (this.htmleEditor) {
+          this.htmleEditor.setValue(this.doc.html);
+          const myCursor = this.cursors.find(curosr => curosr.id === this.user.username);
+          this.htmleEditor.focus();
+          this.htmleEditor.setPosition(myCursor.html);
+        }
+        if (this.cssEditor) {
+          this.cssEditor.setValue(this.doc.css);
+          const myCursor = this.cursors.find(curosr => curosr.id === this.user.username);
+          this.htmleEditor.focus();
+          this.htmleEditor.setPosition(myCursor.css);
+        }
+        if (this.jsEditor) {
+          this.jsEditor.setValue(this.doc.js);
+          const myCursor = this.cursors.find(curosr => curosr.id === this.user.username);
+          this.htmleEditor.focus();
+          this.htmleEditor.setPosition(myCursor.js);
+        }
         this.compile();
       });
     this._cursorsSub = this.documentService.currentCursors
       .subscribe(cursors => {
-        console.log(cursors);
+        // console.log(cursors);
 
         this.cursors = cursors;
       });
@@ -113,41 +136,52 @@ export class DocumentComponent implements OnInit, OnDestroy {
   }
 
   htmlEditorEvent(editor) {
+    this.htmleEditor = editor;
+    editor.setValue(this.doc.html);
+
     this.deleteCursorOnDisconnect(editor);
 
     editor.onDidChangeCursorPosition((e) => {
       this.htmlPos = e.position;
     });
     editor.onDidChangeModelContent((e) => {
-      // console.log(editor)
+      console.log('line count: ', editor.viewModel.getLineCount());
       this.renderCursors(editor);
 
-      const myCursor = this.cursors.find(curosr => curosr.id === this.user.username);
-      editor.setPosition(myCursor.html);
-      editor.focus();
+      this.doc.html = editor.getValue();
 
     });
   }
   cssEditorEvent(editor) {
+    this.cssEditor = editor;
+    editor.setValue(this.doc.css);
+
     this.deleteCursorOnDisconnect(editor);
 
     editor.onDidChangeCursorPosition((e) => {
       this.cssPos = e.position;
     });
     editor.onDidChangeModelContent((e) => {
-      // console.log(editor)
       this.renderCursors(editor);
+
+      this.doc.css = editor.getValue();
+
     });
   }
   jsEditorEvent(editor) {
+    this.jsEditor = editor;
+    editor.setValue(this.doc.js);
+
     this.deleteCursorOnDisconnect(editor);
 
     editor.onDidChangeCursorPosition((e) => {
       this.jsPos = e.position;
     });
     editor.onDidChangeModelContent((e) => {
-      // console.log(editor)
       this.renderCursors(editor);
+
+      this.doc.js = editor.getValue();
+
     });
   }
   editDoc(event) {
@@ -155,6 +189,11 @@ export class DocumentComponent implements OnInit, OnDestroy {
     this.documentService.editDocument(this.doc);
     this.compiler = document.getElementsByTagName('iframe')[0].contentWindow.document;
     this.compile();
+  }
+
+  async leaveDoc() {
+    await this.ngOnDestroy();
+    window.location.reload();
   }
 
 
@@ -196,7 +235,6 @@ export class DocumentComponent implements OnInit, OnDestroy {
               this.domNode.innerHTML =
                 `
               <div style="
-              margin-left: 5px;
               width: 0;
               height: 0;
               border-left: 5px solid transparent;

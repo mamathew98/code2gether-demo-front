@@ -8,11 +8,11 @@
   "
   *ngIf="doc"
 >
-  <button mat-raised-button color="accent" style="margin: 0 5px">Save</button>
-  <button mat-raised-button style="margin: 0 5px">Download</button>
-  <button mat-raised-button color="primary" style="margin: 0 5px">Share</button>
+  <!-- <button mat-raised-button color="accent" style="margin: 0 5px">Save</button> -->
+  <!-- <button mat-raised-button style="margin: 0 5px">Download</button> -->
+  <button mat-raised-button color="primary" style="margin: 0 5px;">Share</button>
 
-  <button mat-raised-button color="warn" style="margin: 0 5px" (click)='ngOnDestroy()'>Exit</button>
+  <button mat-raised-button color="warn" style="margin: 0 5px;" (click)='leaveDoc()'>Exit</button>
 </div>
 <div
   class="row"
@@ -31,7 +31,6 @@
           <ngx-monaco-editor
             (onInit)="htmlEditorEvent($event)"
             [options]="editorHtmlOptions"
-            [(ngModel)]="doc.html"
             (keyup)="editDoc($event)"
             style="height: 70vh; margin: 0; padding: 0; overflow: hidden"
             id="html"
